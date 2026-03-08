@@ -89,6 +89,26 @@ services:
       - traefik-proxy
     restart: unless-stopped
 
+  dev-portfolio:
+    image: ghcr.io/cece-sw/dev-portfolio:latest
+    container_name: dev-portfolio
+    expose:
+      - "3000"
+    labels:
+      - "traefik.enable=true"
+
+      # Main domain
+      - "traefik.http.routers.dev-portfolio.rule=Host(`dev-portfolio.celestinrumo.ch`)"
+      - "traefik.http.routers.dev-portfolio.entrypoints=websecure"
+      - "traefik.http.routers.dev-portfolio.tls.certresolver=le"
+
+      # Internal port of the app
+      - "traefik.http.services.dev-portfolio.loadbalancer.server.port=3000"
+
+    networks:
+      - traefik-proxy
+    restart: unless-stopped
+
 networks:
   traefik-proxy:
     name: traefik-proxy
