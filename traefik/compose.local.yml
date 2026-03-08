@@ -38,3 +38,16 @@ services:
       # Reuse same service
       - "traefik.http.routers.elite-local.service=elite"
       - "traefik.http.services.elite.loadbalancer.server.port=3000"
+
+  dev-portfolio:
+    labels:
+      - "traefik.enable=true"
+
+      # Domaine public
+      - "traefik.http.routers.dev-portfolio.rule=Host(`dev-portfolio.celestinrumo.ch`)"
+      - "traefik.http.routers.dev-portfolio.entrypoints=websecure"
+      - "traefik.http.routers.dev-portfolio.tls=true"
+
+      # service
+      - "traefik.http.routers.dev-portfolio.service=dev-portfolio"
+      - "traefik.http.services.dev-portfolio.loadbalancer.server.port=3000"
