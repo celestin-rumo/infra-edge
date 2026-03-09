@@ -114,7 +114,6 @@ services:
       MAIL_USER: ${MAIL_USER}
       MAIL_PASS: ${MAIL_PASS}
       MAIL_TO: ${MAIL_TO}
-      MAIL_FROM: ${MAIL_FROM}
     expose:
       - "3001"
     labels:
