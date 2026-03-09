@@ -89,22 +89,40 @@ services:
       - traefik-proxy
     restart: unless-stopped
 
-  dev-portfolio:
-    image: ghcr.io/cece-sw/dev-portfolio:latest
-    container_name: dev-portfolio
+  dev-portfolio-frontend:
+    image: ghcr.io/cece-sw/dev-portfolio-frontend:latest
+    container_name: dev-portfolio-frontend
     expose:
       - "3000"
     labels:
       - "traefik.enable=true"
-
-      # Main domain
       - "traefik.http.routers.dev-portfolio.rule=Host(`dev-portfolio.celestinrumo.ch`)"
       - "traefik.http.routers.dev-portfolio.entrypoints=websecure"
       - "traefik.http.routers.dev-portfolio.tls.certresolver=le"
-
-      # Internal port of the app
       - "traefik.http.services.dev-portfolio.loadbalancer.server.port=3000"
+    networks:
+      - traefik-proxy
+    restart: unless-stopped
 
+  dev-portfolio-api:
+    image: ghcr.io/cece-sw/dev-portfolio-api:latest
+    container_name: dev-portfolio-api
+    environment:
+      PORT: 3001
+      MAIL_HOST: ${MAIL_HOST}
+      MAIL_PORT: ${MAIL_PORT}
+      MAIL_USER: ${MAIL_USER}
+      MAIL_PASS: ${MAIL_PASS}
+      MAIL_TO: ${MAIL_TO}
+      MAIL_FROM: ${MAIL_FROM}
+    expose:
+      - "3001"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.dev-portfolio-api.rule=Host(`dev-portfolio.celestinrumo.ch`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.dev-portfolio-api.entrypoints=websecure"
+      - "traefik.http.routers.dev-portfolio-api.tls.certresolver=le"
+      - "traefik.http.services.dev-portfolio-api.loadbalancer.server.port=3001"
     networks:
       - traefik-proxy
     restart: unless-stopped
