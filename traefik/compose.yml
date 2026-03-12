@@ -96,10 +96,27 @@ services:
       - "3000"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.dev-portfolio.rule=Host(`dev-portfolio.celestinrumo.ch`)"
+
+      # Canonical domain (served app)
+      - "traefik.http.routers.dev-portfolio.rule=Host(`www.dev-portfolio.celestinrumo.ch`)"
       - "traefik.http.routers.dev-portfolio.entrypoints=websecure"
       - "traefik.http.routers.dev-portfolio.tls.certresolver=le"
+      - "traefik.http.routers.dev-portfolio.service=dev-portfolio"
+
+      # Redirect apex → www
+      - "traefik.http.routers.dev-portfolio-non-www.rule=Host(`dev-portfolio.celestinrumo.ch`)"
+      - "traefik.http.routers.dev-portfolio-non-www.entrypoints=websecure"
+      - "traefik.http.routers.dev-portfolio-non-www.tls.certresolver=le"
+      - "traefik.http.routers.dev-portfolio-non-www.middlewares=dev-portfolio-redirect-to-www"
+
+      # Internal app port
       - "traefik.http.services.dev-portfolio.loadbalancer.server.port=3000"
+
+      # Middleware redirect
+      - "traefik.http.middlewares.dev-portfolio-redirect-to-www.redirectregex.regex=^https?://dev-portfolio\\.celestinrumo\\.ch/(.*)"
+      - "traefik.http.middlewares.dev-portfolio-redirect-to-www.redirectregex.replacement=https://www.dev-portfolio.celestinrumo.ch/$1"
+      - "traefik.http.middlewares.dev-portfolio-redirect-to-www.redirectregex.permanent=true"
+
     networks:
       - traefik-proxy
     restart: unless-stopped
