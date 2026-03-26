@@ -58,7 +58,7 @@ services:
     restart: unless-stopped
 
   elite-snow-experience:
-    image: ghcr.io/celestin-rumo/snowfall-portfolio:latest
+    image: ghcr.io/celestin-rumo/snowfall-portfolio-frontend:latest
     container_name: elite-snow-experience
     expose:
       - "3000"
