@@ -58,7 +58,7 @@ services:
     restart: unless-stopped
 
   elite-snow-experience:
-    image: ghcr.io/cece-sw/snowfall-portfolio:latest
+    image: ghcr.io/celestin-rumo/snowfall-portfolio:latest
     container_name: elite-snow-experience
     expose:
       - "3000"
@@ -90,7 +90,7 @@ services:
     restart: unless-stopped
 
   dreamandchase-frontend:
-    image: ghcr.io/cece-sw/dreamandchase-frontend:${IMAGE_TAG:-latest}
+    image: ghcr.io/celestin-rumo/dreamandchase-frontend:${IMAGE_TAG:-latest}
     container_name: dreamandchase-frontend
     expose:
       - "3000"
@@ -122,7 +122,7 @@ services:
     restart: unless-stopped
 
   dev-portfolio-frontend:
-    image: ghcr.io/cece-sw/dev-portfolio-frontend:latest
+    image: ghcr.io/celestin-rumo/dev-portfolio-frontend:latest
     container_name: dev-portfolio-frontend
     expose:
       - "3000"
@@ -154,7 +154,7 @@ services:
     restart: unless-stopped
 
   dev-portfolio-api:
-    image: ghcr.io/cece-sw/dev-portfolio-api:latest
+    image: ghcr.io/celestin-rumo/dev-portfolio-api:latest
     container_name: dev-portfolio-api
     environment:
       PORT: 3001
